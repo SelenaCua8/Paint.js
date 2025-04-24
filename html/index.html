@@ -61,10 +61,78 @@
         }
     </style>
     <script type="module">
+        //CONSTANTS
+        const MODES = {
+            DRAW: 'draw',
+            ERASE: 'erase',
+            RECTANGLE: 'rectangle',
+            ELIPSE: 'elipse',
+            PICKER: 'picker'
+
+        }
+        //UTILITIES
         const $ = selector => document.querySelector(selector)
         const $$ = selector => document.querySelectorAll(selector)
 
+        //ELEMENTS
+        const $canvas = $('#canvas') // DOM Element
 
+        const ctx =$canvas.getContext('2d')
+
+        //STATE
+        let isDrawing = false;
+        let startX, startY
+        let lastX = 0;
+        let lastY = 0;
+        let mode = MODES.DRAW
+
+        //EVENTS
+        $canvas.addEventListener('mousedown', startDrawing)
+        $canvas.addEventListener('mousemove', draw)
+        $canvas.addEventListener('mouseup', stopDrawing)
+        $canvas.addEventListener('mouseleave', stopDrawing)
+
+
+        //METHODS
+        function startDrawing(event){
+            isDrawing = true;
+
+            const {offsetX, offsetY} = event
+           
+            //guardas las coordenadas iniciales desestructuración
+            ;[startX, startY ] = [offsetX, offsetY]
+            ;[lastX, lastY ] = [offsetX, offsetY]
+            /*en vez de hacer: startX = offsetX
+            startY = offsetY
+            lastX = offsetX
+            lastY = offsetY*/
+
+            
+
+        }
+        function draw(event){
+            if(!isDrawing) return
+
+            const{offsetX, offsetY} = event
+
+            //comenzar un trazado
+            ctx.beginPath()
+
+            //mover el trazado a las coordenadas actuales
+            ctx.moveTo(lastX,lastY)
+
+            //dibujar una linea entre coordenadas actuales y las nuevas
+            ctx.lineTo(offsetX, offsetY)
+
+            ctx.stroke()
+
+            //actualizar las ultimas coordenadas
+            ;[lastX, lastY] = [offsetX, offsetY]
+        }
+
+        function stopDrawing(event){
+            isDrawing = false;
+        }
 
     </script>
 </head>
