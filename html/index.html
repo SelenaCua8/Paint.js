@@ -37,10 +37,10 @@
         }
         
         header{
+            grid-area: header;
             background: silver;
             padding: 2px;
-        }
-        button{
+            button{
             border: 0;
             background: transparent;
             &:hover{
@@ -48,28 +48,46 @@
                 inset 1px 1px white;
             }
         }
+       
+        }
         
         main{
+            grid-area: main;
             padding:16px;
         }
 
         footer{
+            grid-area: footer;
             background: silver;
             padding: 4px;
         }
         #container{
             border: 1px solid #808080;
+            display: grid;
+            grid-template-areas:
+            "header header header"
+            "aside main main"
+            "footer footer footer";
             
             
 
         }
 
         aside{
+
+            grid-area: aside;
             background: silver;
             width: 52px;
             padding-top: 2px;
-            display: flex;
+
+            
+            nav{
+                display: flex;
             flex-wrap: wrap;
+            gap: 1;
+            justify-content: center;
+
+            }
 
             button{
                 width: 24px;
@@ -77,14 +95,37 @@
 
                 background: #bdbdbd url('../icons/draw.png') no-repeat center;
 
-                
+                background-color: #eee;
                 border: 1px solid #eee;
-                border-right: #000;
+                border-right-color: #000;
                 border-bottom-color: #000;
+
+                image-rendering: pixelated;
+
+                &.active{
+                    border-color: #000;
+                }
                 
 
             }
 
+        }
+
+        #erase-btn{
+            background-image: url('../icons/erase.png');
+        }
+        #rectangle-btn{
+            background-image: url('../icons/rectangle.png');
+        }
+        #ellipse-btn{
+            background-image: url('../icons/ellipse.png');
+        }
+        #picker-btn{
+            background-image: url('../icons/picker.png');
+        }
+        #clear-btn{
+            background-image: url('../icons/trash.png');
+            background-size: 18px;
         }
     </style>
     <script type="module">
@@ -175,11 +216,12 @@
         </header>
         <aside>
             <nav>
-                <button id="draw-btn" title="Pincel"></button>
+                <button class="active" id="draw-btn" title="Pincel"></button>
                 <button id="erase-btn" title="Borrar"></button>
                 <button id="rectangle-btn" title="Rectángulo"></button>
                 <button id="ellipse-btn" title="Elipse"></button>
                 <button id="picker-btn" title="Seleccionar"></button>
+                <button id="clear-btn" title="Limpiar dibujo"></button>
             </nav>
         </aside>
         <main>
